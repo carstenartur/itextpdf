@@ -41,56 +41,58 @@
  * For more information, please contact iText Software Corp. at this
  * address: sales@itextpdf.com
  */
-package com.itextpdf.text.xml.xmp;
-
-import com.itextpdf.text.Version;
+package com.itextpdf.text;
 
 /**
- * An implementation of an XmpSchema.
+ * The class is only for internal usage
  */
-@Deprecated
-public class PdfSchema extends XmpSchema {
+public final class UnifiedVersion {
+    private UnifiedVersion() {
+        // empty constructor
+    }
 
-	private static final long serialVersionUID = -1541148669123992185L;
-	/** default namespace identifier*/
-	public static final String DEFAULT_XPATH_ID = "pdf";
-	/** default namespace uri*/
-	public static final String DEFAULT_XPATH_URI = "http://ns.adobe.com/pdf/1.3/";
-	
-	/** Keywords. */
-	public static final String KEYWORDS = "pdf:Keywords";
-	/** The PDF file version (for example: 1.0, 1.3, and so on). */
-	public static final String VERSION = "pdf:PDFVersion";
-	/** The Producer. */
-	public static final String PRODUCER = "pdf:Producer";
+    public static void onEventUsage() {
+        try {
+            UnifiedVersionUtil.onEventUsage();
+        } catch (NoClassDefFoundError ex) {
+            // no commons dependency, do nothing
+        } catch (UnsupportedClassVersionError ex) {
+            // java < 8 is used, commons can't be used
+        }
+    }
 
+    public static void onEventStatistic(long amountOfBytes, int numberOfPages) {
+        try {
+            UnifiedVersionUtil.onEventStatistic(amountOfBytes, numberOfPages);
+        } catch (NoClassDefFoundError ex) {
+            // no commons dependency, do nothing
+        } catch (UnsupportedClassVersionError ex) {
+            // java < 8 is used, commons can't be used
+        }
+    }
 
-	public PdfSchema() {
-		super("xmlns:" + DEFAULT_XPATH_ID + "=\"" + DEFAULT_XPATH_URI + "\"");
-		addProducer(Version.getCurrentProducer());
-	}
-	
-	/**
-	 * Adds keywords.
-	 * @param keywords
-	 */
-	public void addKeywords(String keywords) {
-		setProperty(KEYWORDS, keywords);
-	}
-	
-	/**
-	 * Adds the producer.
-	 * @param producer
-	 */
-	public void addProducer(String producer) {
-		setProperty(PRODUCER, producer);
-	}
+    public static String getProducer(String oldProducer) {
+        try {
+            return UnifiedVersionUtil.getProducer(oldProducer);
+        } catch (NoClassDefFoundError ex) {
+            // no commons dependency, do nothing
+            return null;
+        } catch (UnsupportedClassVersionError ex) {
+            // java < 8 is used, commons can't be used
+            return null;
+        }
+    }
 
-	/**
-	 * Adds the version.
-	 * @param version
-	 */
-	public void addVersion(String version) {
-		setProperty(VERSION, version);
-	}
+    public static boolean isAGPLVersion() {
+        try {
+            // returns false if unified license has been loaded, otherwise true
+            return UnifiedVersionUtil.isAGPLVersion();
+        } catch (NoClassDefFoundError ex) {
+            // no commons dependency, do nothing
+            return true;
+        } catch (UnsupportedClassVersionError ex) {
+            // java < 8 is used, commons can't be used
+            return true;
+        }
+    }
 }

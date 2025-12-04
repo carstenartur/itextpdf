@@ -2,7 +2,7 @@
  *
  * This file is part of the iText (R) project.
     Copyright (c) 1998-2022 iText Group NV
- * Authors: Bruno Lowagie, Paulo Soares, et al.
+ * Authors: Bruno Lowagie, et al.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -41,56 +41,34 @@
  * For more information, please contact iText Software Corp. at this
  * address: sales@itextpdf.com
  */
-package com.itextpdf.text.xml.xmp;
+package com.itextpdf.text.actions.data;
 
-import com.itextpdf.text.Version;
+import com.itextpdf.commons.actions.data.ProductData;
 
 /**
- * An implementation of an XmpSchema.
+ * Stores an instance of {@link ProductData} related to iText 5.
  */
-@Deprecated
-public class PdfSchema extends XmpSchema {
+public class IText5ProductData {
+    private static final String ITEXT5_PRODUCT_NAME = "itext5";
+    private static final String ITEXT5_PUBLIC_PRODUCT_NAME = ITEXT5_PRODUCT_NAME;
 
-	private static final long serialVersionUID = -1541148669123992185L;
-	/** default namespace identifier*/
-	public static final String DEFAULT_XPATH_ID = "pdf";
-	/** default namespace uri*/
-	public static final String DEFAULT_XPATH_URI = "http://ns.adobe.com/pdf/1.3/";
-	
-	/** Keywords. */
-	public static final String KEYWORDS = "pdf:Keywords";
-	/** The PDF file version (for example: 1.0, 1.3, and so on). */
-	public static final String VERSION = "pdf:PDFVersion";
-	/** The Producer. */
-	public static final String PRODUCER = "pdf:Producer";
+    private static final String ITEXT5_VERSION = "5.5.13.4";
+    private static final int ITEXT5_COPYRIGHT_SINCE = 1998;
+    private static final int ITEXT5_COPYRIGHT_TO = 2025;
 
+    private static final ProductData ITEXT5_PRODUCT_DATA = new ProductData(ITEXT5_PUBLIC_PRODUCT_NAME,
+            ITEXT5_PRODUCT_NAME, ITEXT5_VERSION, ITEXT5_COPYRIGHT_SINCE, ITEXT5_COPYRIGHT_TO);
 
-	public PdfSchema() {
-		super("xmlns:" + DEFAULT_XPATH_ID + "=\"" + DEFAULT_XPATH_URI + "\"");
-		addProducer(Version.getCurrentProducer());
-	}
-	
-	/**
-	 * Adds keywords.
-	 * @param keywords
-	 */
-	public void addKeywords(String keywords) {
-		setProperty(KEYWORDS, keywords);
-	}
-	
-	/**
-	 * Adds the producer.
-	 * @param producer
-	 */
-	public void addProducer(String producer) {
-		setProperty(PRODUCER, producer);
-	}
+    private IText5ProductData() {
+        //To do nothing.
+    }
 
-	/**
-	 * Adds the version.
-	 * @param version
-	 */
-	public void addVersion(String version) {
-		setProperty(VERSION, version);
-	}
+    /**
+     * Getter for an instance of {@link ProductData} related to iText 5.
+     *
+     * @return iText 5 product description
+     */
+    public static ProductData getInstance() {
+        return ITEXT5_PRODUCT_DATA;
+    }
 }

@@ -97,7 +97,7 @@ public class XmpWriter {
         xmpMeta.setObjectName("");
         try {
             xmpMeta.setProperty(XMPConst.NS_DC, DublinCoreProperties.FORMAT, "application/pdf");
-            xmpMeta.setProperty(XMPConst.NS_PDF, PdfProperties.PRODUCER, Version.getInstance().getVersion());
+            xmpMeta.setProperty(XMPConst.NS_PDF, PdfProperties.PRODUCER, Version.getCurrentProducer());
         } catch (XMPException xmpExc) {}
 	}
 

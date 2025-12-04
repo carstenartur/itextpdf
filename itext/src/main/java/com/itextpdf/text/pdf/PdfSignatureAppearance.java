@@ -90,7 +90,7 @@ public class PdfSignatureAppearance {
         this.writer = writer;
         signDate = new GregorianCalendar();
         fieldName = getNewSigName();
-        signatureCreator = Version.getInstance().getVersion();
+        signatureCreator = Version.getCurrentProducer();
     }
 
 	/*

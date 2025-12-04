@@ -524,7 +524,7 @@ public class Document implements DocListener, IAccessibleElement {
 
     public boolean addProducer() {
         try {
-            return add(new Meta(Element.PRODUCER, Version.getInstance().getVersion()));
+            return add(new Meta(Element.PRODUCER, Version.getCurrentProducer()));
 		} catch (DocumentException de) {
             throw new ExceptionConverter(de);
         }

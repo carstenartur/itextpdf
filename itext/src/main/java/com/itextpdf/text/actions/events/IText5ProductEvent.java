@@ -2,7 +2,7 @@
  *
  * This file is part of the iText (R) project.
     Copyright (c) 1998-2022 iText Group NV
- * Authors: Bruno Lowagie, Paulo Soares, et al.
+ * Authors: Bruno Lowagie, et al.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -41,56 +41,48 @@
  * For more information, please contact iText Software Corp. at this
  * address: sales@itextpdf.com
  */
-package com.itextpdf.text.xml.xmp;
+package com.itextpdf.text.actions.events;
 
-import com.itextpdf.text.Version;
+import com.itextpdf.commons.actions.AbstractProductProcessITextEvent;
+import com.itextpdf.commons.actions.confirmations.EventConfirmationType;
+import com.itextpdf.commons.actions.contexts.IMetaInfo;
+import com.itextpdf.commons.actions.sequence.SequenceId;
+import com.itextpdf.text.actions.data.IText5ProductData;
 
 /**
- * An implementation of an XmpSchema.
+ * Class represents events registered in iText 5.
  */
-@Deprecated
-public class PdfSchema extends XmpSchema {
+public class IText5ProductEvent extends AbstractProductProcessITextEvent {
+    /**
+     * Process PDF event type.
+     */
+    public static final String PROCESS_PDF = "process-pdf-itext5";
 
-	private static final long serialVersionUID = -1541148669123992185L;
-	/** default namespace identifier*/
-	public static final String DEFAULT_XPATH_ID = "pdf";
-	/** default namespace uri*/
-	public static final String DEFAULT_XPATH_URI = "http://ns.adobe.com/pdf/1.3/";
-	
-	/** Keywords. */
-	public static final String KEYWORDS = "pdf:Keywords";
-	/** The PDF file version (for example: 1.0, 1.3, and so on). */
-	public static final String VERSION = "pdf:PDFVersion";
-	/** The Producer. */
-	public static final String PRODUCER = "pdf:Producer";
+    private final String eventType;
 
+    /**
+     * Creates an event associated with a general identifier and additional metadata.
+     *
+     * @param sequenceId is an identifier associated with the event
+     * @param metaInfo   is an additional meta info
+     * @param eventType  is a string description of the event
+     */
+    private IText5ProductEvent(SequenceId sequenceId, IMetaInfo metaInfo, String eventType) {
+        super(sequenceId, IText5ProductData.getInstance(), metaInfo, EventConfirmationType.ON_DEMAND);
+        this.eventType = eventType;
+    }
 
-	public PdfSchema() {
-		super("xmlns:" + DEFAULT_XPATH_ID + "=\"" + DEFAULT_XPATH_URI + "\"");
-		addProducer(Version.getCurrentProducer());
-	}
-	
-	/**
-	 * Adds keywords.
-	 * @param keywords
-	 */
-	public void addKeywords(String keywords) {
-		setProperty(KEYWORDS, keywords);
-	}
-	
-	/**
-	 * Adds the producer.
-	 * @param producer
-	 */
-	public void addProducer(String producer) {
-		setProperty(PRODUCER, producer);
-	}
+    /**
+     * Creates a process-pdf event which is associated with a general identifier and additional metadata.
+     *
+     * @return the process pdf iText 5 event
+     */
+    public static IText5ProductEvent createProcessPdfEvent() {
+        return new IText5ProductEvent(null, null, PROCESS_PDF);
+    }
 
-	/**
-	 * Adds the version.
-	 * @param version
-	 */
-	public void addVersion(String version) {
-		setProperty(VERSION, version);
-	}
+    @Override
+    public String getEventType() {
+        return eventType;
+    }
 }

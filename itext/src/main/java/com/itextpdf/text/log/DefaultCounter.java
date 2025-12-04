@@ -41,6 +41,7 @@
  */
 package com.itextpdf.text.log;
 
+import com.itextpdf.text.UnifiedVersion;
 import com.itextpdf.text.Version;
 import com.itextpdf.text.pdf.codec.Base64;
 
@@ -79,7 +80,7 @@ public class DefaultCounter implements Counter {
 
     private void plusOne() {
         if (count++ > repeat_level) {
-            if (Version.isAGPLVersion()) {
+            if (Version.isAGPLVersion() && UnifiedVersion.isAGPLVersion()) {
                 level++;
                 if (level == 1) {
                     repeat_level = repeat[1];

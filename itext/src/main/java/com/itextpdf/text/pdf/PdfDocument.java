@@ -168,7 +168,7 @@ public class PdfDocument extends Document {
          */
 
         void addProducer() {
-            put(PdfName.PRODUCER, new PdfString(Version.getInstance().getVersion()));
+            put(PdfName.PRODUCER, new PdfString(Version.getCurrentProducer()));
         }
 
         /**

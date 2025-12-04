@@ -41,56 +41,63 @@
  * For more information, please contact iText Software Corp. at this
  * address: sales@itextpdf.com
  */
-package com.itextpdf.text.xml.xmp;
+package com.itextpdf.text.pdf.statistics;
 
-import com.itextpdf.text.Version;
+import com.itextpdf.commons.actions.AbstractStatisticsAggregator;
+import com.itextpdf.commons.actions.AbstractStatisticsEvent;
+import com.itextpdf.commons.actions.data.ProductData;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
- * An implementation of an XmpSchema.
+ * Class which represents event related to size of the PDF document. Only for internal usage.
  */
-@Deprecated
-public class PdfSchema extends XmpSchema {
+public class SizeOfPdfStatisticsEvent extends AbstractStatisticsEvent {
 
-	private static final long serialVersionUID = -1541148669123992185L;
-	/** default namespace identifier*/
-	public static final String DEFAULT_XPATH_ID = "pdf";
-	/** default namespace uri*/
-	public static final String DEFAULT_XPATH_URI = "http://ns.adobe.com/pdf/1.3/";
-	
-	/** Keywords. */
-	public static final String KEYWORDS = "pdf:Keywords";
-	/** The PDF file version (for example: 1.0, 1.3, and so on). */
-	public static final String VERSION = "pdf:PDFVersion";
-	/** The Producer. */
-	public static final String PRODUCER = "pdf:Producer";
+    private static final String PDF_SIZE_STATISTICS = "pdfSize";
 
+    private final long amountOfBytes;
 
-	public PdfSchema() {
-		super("xmlns:" + DEFAULT_XPATH_ID + "=\"" + DEFAULT_XPATH_URI + "\"");
-		addProducer(Version.getCurrentProducer());
-	}
-	
-	/**
-	 * Adds keywords.
-	 * @param keywords
-	 */
-	public void addKeywords(String keywords) {
-		setProperty(KEYWORDS, keywords);
-	}
-	
-	/**
-	 * Adds the producer.
-	 * @param producer
-	 */
-	public void addProducer(String producer) {
-		setProperty(PRODUCER, producer);
-	}
+    /**
+     * Creates an instance of this class based on the {@link ProductData} and the size of the document.
+     *
+     * @param amountOfBytes the number of bytes in the PDF document during the processing of which the event was sent
+     * @param productData is a description of the product which has generated an event
+     */
+    public SizeOfPdfStatisticsEvent(long amountOfBytes, ProductData productData) {
+        super(productData);
+        if (amountOfBytes < 0) {
+            throw new IllegalArgumentException("Amount of bytes in the PDF document cannot be less than zero");
+        }
+        this.amountOfBytes = amountOfBytes;
+    }
 
-	/**
-	 * Adds the version.
-	 * @param version
-	 */
-	public void addVersion(String version) {
-		setProperty(VERSION, version);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AbstractStatisticsAggregator createStatisticsAggregatorFromName(String statisticsName) {
+        if (PDF_SIZE_STATISTICS.equals(statisticsName)) {
+            return new SizeOfPdfStatisticsAggregator();
+        }
+        return super.createStatisticsAggregatorFromName(statisticsName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getStatisticsNames() {
+        return Collections.singletonList(PDF_SIZE_STATISTICS);
+    }
+
+    /**
+     * Gets number of bytes in the PDF document during the processing of which the event was sent.
+     *
+     * @return the number of pages
+     */
+    public long getAmountOfBytes() {
+        return amountOfBytes;
+    }
 }

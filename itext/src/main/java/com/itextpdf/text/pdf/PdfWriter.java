@@ -1282,7 +1282,10 @@ public class PdfWriter extends DocWriter implements
                     }
                     catalog.put(PdfName.METADATA, body.add(xmp).getIndirectReference());
                 }
-                getInfo().put(PdfName.PRODUCER, new PdfString(Version.getInstance().getVersion()));
+                getInfo().put(PdfName.PRODUCER, new PdfString(Version.getCurrentProducer()));
+                if (!UnifiedVersion.isAGPLVersion()) {
+                    UnifiedVersion.onEventUsage();
+                }
                 // [C10] make pdfx conformant
                 if (isPdfX()) {
                     completeInfoDictionary(getInfo());
@@ -1334,6 +1337,10 @@ public class PdfWriter extends DocWriter implements
                     encryption,
                     fileID, prevxref);
                     trailer.toPdf(this, os);
+                }
+
+                if (!UnifiedVersion.isAGPLVersion()) {
+                    UnifiedVersion.onEventStatistic(this.os.getCounter(), pdf.getPageNumber());
                 }
             } catch(IOException ioe) {
                 throw new ExceptionConverter(ioe);
@@ -3406,7 +3413,7 @@ public class PdfWriter extends DocWriter implements
     protected static void writeKeyInfo(OutputStream os) throws IOException {
     	Version version = Version.getInstance();
     	String k = version.getKey();
-    	if (k == null) {
+    	if (k == null || !UnifiedVersion.isAGPLVersion()) {
             k = "iText";
     	}
         os.write(getISOBytes(String.format("%%%s-%s\n", k, version.getRelease())));

@@ -69,9 +69,17 @@
     <sonar.language>java</sonar.language>
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
+    <itext.commons.version>9.5.0-SNAPSHOT</itext.commons.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>commons</artifactId>
+      <version>${itext.commons.version}</version>
+      <!-- Commons is optional because it requires java 8+ -->
+      <optional>true</optional>
+    </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15to18</artifactId>

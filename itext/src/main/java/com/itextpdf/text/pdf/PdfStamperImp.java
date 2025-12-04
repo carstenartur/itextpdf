@@ -49,6 +49,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.UnifiedVersion;
 import com.itextpdf.text.Version;
 import com.itextpdf.text.error_messages.MessageLocalization;
 import com.itextpdf.text.exceptions.BadPasswordException;
@@ -319,22 +320,33 @@ class PdfStamperImp extends PdfWriter {
         }
         PdfDictionary oldInfo = reader.getTrailer().getAsDict(PdfName.INFO);
         String producer = null;
+        String oldProducer = null;
         if (oldInfo != null && oldInfo.get(PdfName.PRODUCER) != null) {
-            producer = oldInfo.getAsString(PdfName.PRODUCER).toUnicodeString();
+            oldProducer = oldInfo.getAsString(PdfName.PRODUCER).toUnicodeString();
         }
-        Version version = Version.getInstance();
-        if (producer == null || version.getVersion().indexOf(version.getProduct()) == -1) {
-            producer = version.getVersion();
+        if (UnifiedVersion.isAGPLVersion()) {
+            // Old mechanism of producer line modifying
+            if (oldProducer != null) {
+                producer = oldProducer;
+            }
+            Version version = Version.getInstance();
+            if (producer == null || version.getVersion().indexOf(version.getProduct()) == -1) {
+                producer = version.getVersion();
+            } else {
+                int idx = producer.indexOf("; modified using");
+                StringBuffer buf;
+                if (idx == -1)
+                    buf = new StringBuffer(producer);
+                else
+                    buf = new StringBuffer(producer.substring(0, idx));
+                buf.append("; modified using ");
+                buf.append(version.getVersion());
+                producer = buf.toString();
+            }
         } else {
-            int idx = producer.indexOf("; modified using");
-            StringBuffer buf;
-            if (idx == -1)
-                buf = new StringBuffer(producer);
-            else
-                buf = new StringBuffer(producer.substring(0, idx));
-            buf.append("; modified using ");
-            buf.append(version.getVersion());
-            producer = buf.toString();
+            // Unified mechanism of producer line modifying
+            producer = UnifiedVersion.getProducer(oldProducer);
+            // Event has been sent and confirmed on reading it by PdfReader
         }
         PdfIndirectReference info = null;
         PdfDictionary newInfo = new PdfDictionary();
@@ -434,6 +446,10 @@ class PdfStamperImp extends PdfWriter {
         if (!namedDestinations.isEmpty())
             updateNamedDestinations();
         close(info, skipInfo);
+
+        if (!UnifiedVersion.isAGPLVersion()) {
+            UnifiedVersion.onEventStatistic(this.os.getCounter(), reader.getNumberOfPages());
+        }
     }
 
     protected void close(PdfIndirectReference info, int skipInfo) throws IOException {

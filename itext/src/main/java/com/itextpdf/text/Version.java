@@ -203,6 +203,10 @@ public final class Version {
         return getInstance().getVersion().indexOf(AGPL) > 0;
     }
 
+    public static String getCurrentProducer() {
+        return UnifiedVersion.isAGPLVersion() ? Version.getInstance().getVersion() : UnifiedVersion.getProducer(null);
+    }
+
     private static Version atomicSetVersion(Version newVersion) {
         synchronized (staticLock) {
             version = newVersion;
