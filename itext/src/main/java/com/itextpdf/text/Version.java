@@ -1,7 +1,7 @@
 /*
  *
  * This file is part of the iText (R) project.
-    Copyright (c) 1998-2022 iText Group NV
+    Copyright (c) 1998-2026 iText Group NV
  * Authors: Bruno Lowagie, Paulo Soares, et al.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -81,7 +81,7 @@ public final class Version {
 	 * iText Group requests that you retain the iText producer line
 	 * in every PDF that is created or manipulated using iText.
 	 */
-	private String iTextVersion = iText + " " + release + " \u00a92000-2024 iText Group NV";
+	private String iTextVersion = iText + " " + release + " \u00a92000-2026 iText Group NV";
 	/**
 	 * The license key.
 	 */

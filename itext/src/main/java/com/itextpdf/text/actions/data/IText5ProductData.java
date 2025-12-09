@@ -1,7 +1,7 @@
 /*
  *
  * This file is part of the iText (R) project.
-    Copyright (c) 1998-2022 iText Group NV
+    Copyright (c) 1998-2026 iText Group NV
  * Authors: Bruno Lowagie, et al.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -54,7 +54,7 @@ public class IText5ProductData {
 
     private static final String ITEXT5_VERSION = "5.5.13.5-SNAPSHOT";
     private static final int ITEXT5_COPYRIGHT_SINCE = 1998;
-    private static final int ITEXT5_COPYRIGHT_TO = 2025;
+    private static final int ITEXT5_COPYRIGHT_TO = 2026;
 
     private static final ProductData ITEXT5_PRODUCT_DATA = new ProductData(ITEXT5_PUBLIC_PRODUCT_NAME,
             ITEXT5_PRODUCT_NAME, ITEXT5_VERSION, ITEXT5_COPYRIGHT_SINCE, ITEXT5_COPYRIGHT_TO);
