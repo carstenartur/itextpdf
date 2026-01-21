@@ -1,7 +1,7 @@
 /*
  *
  * This file is part of the iText (R) project.
-    Copyright (c) 1998-2022 iText Group NV
+    Copyright (c) 1998-2026 iText Group NV
  * Authors: Bruno Lowagie, Kevin Day, Paulo Soares, et al.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -342,7 +342,7 @@ public class PdfImageObject {
             wr.addField(new TiffWriter.FieldRational(TIFFConstants.TIFFTAG_XRESOLUTION, new int[]{300,1}));
             wr.addField(new TiffWriter.FieldRational(TIFFConstants.TIFFTAG_YRESOLUTION, new int[]{300,1}));
             wr.addField(new TiffWriter.FieldShort(TIFFConstants.TIFFTAG_RESOLUTIONUNIT, TIFFConstants.RESUNIT_INCH));
-            wr.addField(new TiffWriter.FieldAscii(TIFFConstants.TIFFTAG_SOFTWARE, Version.getInstance().getVersion()));
+            wr.addField(new TiffWriter.FieldAscii(TIFFConstants.TIFFTAG_SOFTWARE, Version.getCurrentProducer()));
             ByteArrayOutputStream comp = new ByteArrayOutputStream();
             TiffWriter.compressLZW(comp, 2, imageBytes, height, 4, stride);
             byte[] buf = comp.toByteArray();

@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>itext-pdfa</artifactId>
-  <version>5.5.13.4</version>
+  <version>5.5.13.5</version>
 
   <name>iText PDF/A</name>
   <description>iText ISO-19005 Module</description>
@@ -68,6 +68,7 @@
     <sonar.language>java</sonar.language>
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
+    <bouncycastle.version>1.83</bouncycastle.version>
   </properties>
 
   <dependencies>
@@ -80,7 +81,7 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15to18</artifactId>
-      <version>1.78.1</version>
+      <version>${bouncycastle.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>

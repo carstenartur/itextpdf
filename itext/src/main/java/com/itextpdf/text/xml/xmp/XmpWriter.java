@@ -1,7 +1,7 @@
 /*
  *
  * This file is part of the iText (R) project.
-    Copyright (c) 1998-2022 iText Group NV
+    Copyright (c) 1998-2026 iText Group NV
  * Authors: Bruno Lowagie, Paulo Soares, et al.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -97,7 +97,7 @@ public class XmpWriter {
         xmpMeta.setObjectName("");
         try {
             xmpMeta.setProperty(XMPConst.NS_DC, DublinCoreProperties.FORMAT, "application/pdf");
-            xmpMeta.setProperty(XMPConst.NS_PDF, PdfProperties.PRODUCER, Version.getInstance().getVersion());
+            xmpMeta.setProperty(XMPConst.NS_PDF, PdfProperties.PRODUCER, Version.getCurrentProducer());
         } catch (XMPException xmpExc) {}
 	}
 

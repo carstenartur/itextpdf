@@ -1,7 +1,7 @@
 /*
  *
  * This file is part of the iText (R) project.
-    Copyright (c) 1998-2022 iText Group NV
+    Copyright (c) 1998-2026 iText Group NV
  * Authors: Bruno Lowagie, Paulo Soares, et al.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -524,7 +524,7 @@ public class Document implements DocListener, IAccessibleElement {
 
     public boolean addProducer() {
         try {
-            return add(new Meta(Element.PRODUCER, Version.getInstance().getVersion()));
+            return add(new Meta(Element.PRODUCER, Version.getCurrentProducer()));
 		} catch (DocumentException de) {
             throw new ExceptionConverter(de);
         }

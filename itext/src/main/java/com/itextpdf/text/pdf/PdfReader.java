@@ -1,7 +1,7 @@
 /*
  *
  * This file is part of the iText (R) project.
-    Copyright (c) 1998-2022 iText Group NV
+    Copyright (c) 1998-2026 iText Group NV
  * Authors: Bruno Lowagie, Paulo Soares, et al.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.UnifiedVersion;
 import com.itextpdf.text.error_messages.MessageLocalization;
 import com.itextpdf.text.exceptions.BadPasswordException;
 import com.itextpdf.text.exceptions.InvalidPdfException;
@@ -219,6 +220,10 @@ public class PdfReader implements PdfViewerPreferences {
             throw e;
         }
         getCounter().read(fileLength);
+
+        if (!UnifiedVersion.isAGPLVersion()) {
+            UnifiedVersion.onEventUsage();
+        }
     }
 
     /**
